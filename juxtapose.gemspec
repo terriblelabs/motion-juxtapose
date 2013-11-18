@@ -1,15 +1,13 @@
 # coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'juxtapose/version'
+require File.expand_path('../lib/juxtapose/version', __FILE__)
 
 Gem::Specification.new do |spec|
   spec.name          = "juxtapose"
   spec.version       = Juxtapose::VERSION
   spec.authors       = ["Joe Lind", "Thomas Mayfield"]
   spec.email         = ["thomas@terriblelabs.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Screenshot-based assertions for RubyMotion projects}
+  spec.summary       = %q{Screenshot-based assertions for RubyMotion projects}
   spec.homepage      = ""
   spec.license       = "MIT"
 
