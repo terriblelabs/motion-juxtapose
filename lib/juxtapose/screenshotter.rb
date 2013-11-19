@@ -20,15 +20,15 @@ class Juxtapose
     end
 
     def version
-      @version ||= "ios_#{Device.ios_version}"
+      @version ||= "ios_#{UIDevice.currentDevice.systemVersion}"
     end
 
     def width
-      resolution.width
+      resolution.size.width
     end
 
     def height
-      resolution.height
+      resolution.size.height
     end
 
     def dir
@@ -59,7 +59,7 @@ class Juxtapose
       scale = UIScreen.mainScreen.scale
       size = UIScreen.mainScreen.bounds.size
 
-      if [:landscape_right, :landscape_left].include?(Device.orientation)
+      if [UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight].include? currentOrientation
         size = CGSizeMake(size.height, size.width);
       end
 
