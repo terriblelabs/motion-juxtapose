@@ -81,6 +81,8 @@ class Juxtapose
       end
 
       windows.each do |window|
+        next if window.layer.presentationLayer.nil?
+
         CGContextSaveGState(context)
         CGContextTranslateCTM(context, window.center.x, window.center.y)
         CGContextConcatCTM(context, window.transform)
