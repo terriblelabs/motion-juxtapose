@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'sinatra'
+require 'haml' # if you use haml views
+
+begin
+  require 'juxtapose/application/app.rb'
+rescue LoadError => e
+  require 'rubygems'
+  path = File.expand_path '../../lib', __FILE__
+  $:.unshift(path) if File.directory?(path) && !$:.include?(path)
+  require 'juxtapose/application/app.rb'
+end
+

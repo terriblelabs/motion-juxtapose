@@ -1,0 +1,35 @@
+!!!
+%html
+  %head
+    %title Juxtapose
+    %meta{name:"viewport", content:"width=device-width, initial-scale=1.0"}
+    %link{href:"css/bootstrap.min.css", rel:"stylesheet"}
+    %link{href:"css/styles.css", rel:"stylesheet"}
+  %body
+    .container{"ng-app" => "juxtapose"}
+      %h1 Juxtapose
+      %h2 Specs
+
+      %ul.specs{"ng-controller" => "ProjectsCtrl"}
+        %li.spec{"ng-repeat" => "spec in project.specs"}
+          %p {{ spec.directory }}
+
+          %span.active{"ng-if" => "spec.accepted"}
+            %img{"ng-src" => "{{spec.accepted.path}}", width: '200px'}
+            ACCEPTED
+          %span.active{"ng-if" => "spec.current"}
+            %img{"ng-src" => "{{spec.current.path}}", width: '200px'}
+            CURRENT
+            %button{"ng-click" => "accept(spec)"}
+              Accept
+          %span.active{"ng-if" => "spec.diff"}
+            %img{"ng-src" => "{{spec.diff.path}}", width: '200px'}
+            DIFF
+
+      %script
+        Juxtapose = {}
+        Juxtapose.project = #{project.to_json};
+      %script{src:"https://code.jquery.com/jquery.js"}
+      %script{src:"js/bootstrap.min.js"}
+      %script{src:"js/angular.min.js"}
+      %script{src:"js/app.js"}

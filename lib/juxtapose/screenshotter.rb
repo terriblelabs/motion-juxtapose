@@ -1,5 +1,16 @@
-class Juxtapose
-  def self.it_should_look_like(template)
+module Juxtapose
+  def self.extended(base)
+    ::Bacon::Specification.class_eval do
+      alias_method :original_run_spec_block, :run_spec_block
+
+      def run_spec_block
+        Thread.current["CURRENT_SPEC_DESCRIPTION"] = @description
+        original_run_spec_block
+      end
+    end
+  end
+
+  def it_should_look_like(template)
     Screenshotter.new(self, template).verify.should === true
   end
 
@@ -35,8 +46,12 @@ class Juxtapose
       ENV["RUBYMOTION_PROJECT_DIR"]
     end
 
+    def test_name
+      "#{@context.name}-#{Thread.current["CURRENT_SPEC_DESCRIPTION"]}".downcase.gsub(/ /, '-').gsub(/[^\w-]/, '')
+    end
+
     def dir
-      @dir ||= "#{project_root}/spec/screens/#{version}/#{template}".tap do |dir|
+      @dir ||= "#{project_root}/spec/screens/#{version}/#{test_name}/#{template}".tap do |dir|
         `mkdir -p #{dir}`
       end
     end
@@ -44,8 +59,8 @@ class Juxtapose
     def filename(base)
       raise "unknown filename" unless [:current, :accepted, :diff].include?(base)
       components = [base]
-      components << timestamp unless base == :accepted
-      components += ["#{width}x#{height}", "png"]
+      components << "retina" if UIScreen.mainScreen.scale > 1
+      components << "png"
 
       File.join dir, components.join('.')
     end
