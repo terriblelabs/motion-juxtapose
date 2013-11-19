@@ -31,8 +31,12 @@ class Juxtapose
       resolution.size.height
     end
 
+    def project_root
+      ENV["RUBYMOTION_PROJECT_DIR"]
+    end
+
     def dir
-      @dir ||= "#{File.dirname(__FILE__)}/../../spec/screens/#{version}/#{template}".tap do |dir|
+      @dir ||= "#{project_root}/spec/screens/#{version}/#{template}".tap do |dir|
         `mkdir -p #{dir}`
       end
     end
