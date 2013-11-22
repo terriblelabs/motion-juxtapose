@@ -1,1 +1,26 @@
 body { background: #eeeeee; }
+.spec { padding: 10px; }
+.spec_name { font-size: 24px;}
+tr.spec_labels { font-weight: bold; }
+ul.specs {
+  list-style-type: none;
+  margin-top: 10px;
+  padding-left: 0px;
+}
+
+li.spec table td {
+  padding: 3px 10px;
+}
+
+li.no-failures,
+li.no-specs {
+  font-size: 16px;
+}
+
+.passing-title {
+  color: #009933;
+}
+
+.failing-title {
+  color: #B20000;
+}

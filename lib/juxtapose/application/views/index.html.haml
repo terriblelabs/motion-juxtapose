@@ -5,31 +5,70 @@
     %meta{name:"viewport", content:"width=device-width, initial-scale=1.0"}
     %link{href:"css/bootstrap.min.css", rel:"stylesheet"}
     %link{href:"css/styles.css", rel:"stylesheet"}
-  %body
-    .container{"ng-app" => "juxtapose"}
+
+    %script
+      Juxtapose = {}
+      Juxtapose.project = #{project.to_json};
+    %script{src:"https://code.jquery.com/jquery.js"}
+    %script{src:"js/underscore-min.js"}
+    %script{src:"js/bootstrap.min.js"}
+    %script{src:"js/angular.min.js"}
+    %script{src:"js/app.js"}
+  %body{"ng-app" => "juxtapose", "ng-cloak" => true}
+    .container{"ng-controller" => "ProjectsCtrl"}
       %h1 Juxtapose
-      %h2 Specs
 
-      %ul.specs{"ng-controller" => "ProjectsCtrl"}
-        %li.spec{"ng-repeat" => "spec in project.specs"}
-          %p {{ spec.directory }}
+      %form.form
+        .row
+          .col-md-3
+            .form-group
+              %label{for: 'search'} Search
+              %input{"ng-model" => "search", name: 'search'}
 
-          %span.active{"ng-if" => "spec.accepted"}
-            %img{"ng-src" => "{{spec.accepted.path}}", width: '200px'}
-            ACCEPTED
-          %span.active{"ng-if" => "spec.current"}
-            %img{"ng-src" => "{{spec.current.path}}", width: '200px'}
-            CURRENT
-            %button{"ng-click" => "accept(spec)"}
-              Accept
-          %span.active{"ng-if" => "spec.diff"}
-            %img{"ng-src" => "{{spec.diff.path}}", width: '200px'}
-            DIFF
+            .checkbox
+              %label
+                %input{type: "checkbox", "ng-model" => "onlyFailing", "ng-init" => "onlyFailing = true"}
+                  Only Failing Specs
 
-      %script
-        Juxtapose = {}
-        Juxtapose.project = #{project.to_json};
-      %script{src:"https://code.jquery.com/jquery.js"}
-      %script{src:"js/bootstrap.min.js"}
-      %script{src:"js/angular.min.js"}
-      %script{src:"js/app.js"}
+          .col-md-3
+            .form-group
+              %b iOS Version
+              .checkbox{"ng-repeat" => "version in versions"}
+                %label
+                  %input{type: "checkbox", "ng-model" => "version.selected", "ng-init" => "version.selected = true" }
+                    {{ version.name }}
+
+      %ul.specs
+        %li.spec{"ng-repeat" => "spec in specs = (project.specs | filter:specNameMatcher | filter:onlyFailingMatcher | filter:versionMatcher)", "ng-class" => "spec.current ? 'failed' : 'passed'"}
+          %p.spec_name
+            %span.failing-title{"ng-show" => "spec.current"} FAILING
+            %span.passing-title{"ng-show" => "!spec.current"} PASSING
+            {{ specName(spec) }}
+            .version
+              iOS {{ iOSVersion(spec) }}
+
+          %table
+            %tr
+              %td{"ng-if" => "spec.accepted"}
+                %a{"ng-href" => "{{spec.accepted.path}}", target: "_blank"}
+                  %img{"ng-src" => "{{spec.accepted.path}}", width: '200px'}
+              %td{"ng-if" => "spec.current"}
+                %a{"ng-href" => "{{spec.current.path}}", target: "_blank"}
+                  %img{"ng-src" => "{{spec.current.path}}", width: '200px'}
+              %td{"ng-if" => "spec.diff"}
+                %a{"ng-href" => "{{spec.diff.path}}", target: "_blank"}
+                  %img{"ng-src" => "{{spec.diff.path}}", width: '200px'}
+            %tr.spec_labels{"ng-if" => "spec.current"}
+              %td{"ng-if" => "spec.accepted"}
+                ACCEPTED
+              %td{"ng-if" => "spec.current"}
+                CURRENT
+                %button{"ng-click" => "accept(spec)"}
+                  Accept
+              %td{"ng-if" => "spec.diff"}
+                DIFF
+        %li.no-failures{"ng-show" => "onlyFailing && specs.length == 0"}
+          No failing specs found.
+        %li.no-specs{"ng-show" => "!onlyFailing && specs.length == 0"}
+          No matching specs found.
+
