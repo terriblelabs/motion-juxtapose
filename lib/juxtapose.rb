@@ -1,15 +1,15 @@
-unless defined?(Motion::Project::Config)
-  raise "This file must be required within a RubyMotion project Rakefile."
-end
-
 require "juxtapose/version"
+require "juxtapose/screenshotter"
+require "juxtapose/strategy/frank_strategy"
 
-Motion::Project::App.setup do |app|
-  ENV["RUBYMOTION_PROJECT_DIR"] = Dir.pwd
+if defined?(Motion::Project::Config)
+  Motion::Project::App.setup do |app|
+    ENV["RUBYMOTION_PROJECT_DIR"] = Dir.pwd
 
-  Dir.glob(File.join(File.dirname(__FILE__), 'juxtapose/**/*.rb')).reverse.each do |file|
-    unless file.match(/juxtapose\/application/)
-      app.files.unshift(file)
+    Dir.glob(File.join(File.dirname(__FILE__), 'juxtapose/**/*.rb')).reverse.each do |file|
+      unless file.match(/juxtapose\/application/)
+        app.files.unshift(file)
+      end
     end
   end
 end

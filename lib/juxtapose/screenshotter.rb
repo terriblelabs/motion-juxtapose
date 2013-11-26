@@ -1,11 +1,13 @@
 module Juxtapose
   def self.extended(base)
-    ::Bacon::Specification.class_eval do
-      alias_method :original_run_spec_block, :run_spec_block
+    if defined?(::Bacon::Specification)
+      ::Bacon::Specification.class_eval do
+        alias_method :original_run_spec_block, :run_spec_block
 
-      def run_spec_block
-        Thread.current["CURRENT_SPEC_DESCRIPTION"] = @description
-        original_run_spec_block
+        def run_spec_block
+          Thread.current["CURRENT_SPEC_DESCRIPTION"] = @description
+          original_run_spec_block
+        end
       end
     end
   end
@@ -19,27 +21,21 @@ module Juxtapose
     M_PI_2 = Math::PI / 2
 
     attr_reader :context
+    attr_reader :strategy
     attr_reader :template
 
     def initialize(context, template)
       @context = context
-      @template = template
+      @template = template.gsub(' ', '-')
+      @strategy = strategy_for_context(context)
     end
 
-    def resolution
-      @resolution ||= UIScreen.mainScreen.bounds
-    end
-
-    def version
-      @version ||= "ios_#{UIDevice.currentDevice.systemVersion}"
-    end
-
-    def width
-      resolution.size.width
-    end
-
-    def height
-      resolution.size.height
+    def strategy_for_context(context)
+      if defined?(::Bacon::Context) && context.is_a?(::Bacon::Context)
+        Juxtapose::MacBaconStrategy.new(context)
+      elsif context.respond_to? :frankly_ping
+        Juxtapose::FrankStrategy.new(context)
+      end
     end
 
     def project_root
@@ -47,11 +43,11 @@ module Juxtapose
     end
 
     def test_name
-      "#{@context.name}-#{Thread.current["CURRENT_SPEC_DESCRIPTION"]}".downcase.gsub(/ /, '-').gsub(/[^\w-]/, '')
+      strategy.current_spec_description.downcase.gsub(/ /, '-').gsub(/[^\w-]/, '')
     end
 
     def dir
-      @dir ||= "#{project_root}/spec/screens/#{version}/#{test_name}/#{template}".tap do |dir|
+      @dir ||= "#{project_root}/spec/screens/#{strategy.version}/#{test_name}/#{template}".tap do |dir|
         `mkdir -p #{dir}`
       end
     end
@@ -59,7 +55,7 @@ module Juxtapose
     def filename(base)
       raise "unknown filename" unless [:current, :accepted, :diff].include?(base)
       components = [base]
-      components << "retina" if UIScreen.mainScreen.scale > 1
+      components << "retina" if strategy.retina?
       components << "png"
 
       File.join dir, components.join('.')
@@ -69,63 +65,12 @@ module Juxtapose
       @timestamp ||= Time.now.to_f.to_s.gsub(/\./, '')
     end
 
-    def save_current
-      application = UIApplication.sharedApplication
-      windows = application.windows
-
-      currentOrientation = application.statusBarOrientation
-
-      scale = UIScreen.mainScreen.scale
-      size = UIScreen.mainScreen.bounds.size
-
-      if [UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight].include? currentOrientation
-        size = CGSizeMake(size.height, size.width);
-      end
-
-      UIGraphicsBeginImageContextWithOptions(size, false, scale)
-      context = UIGraphicsGetCurrentContext()
-
-      if currentOrientation == UIInterfaceOrientationLandscapeLeft
-        CGContextTranslateCTM(context, size.width / 2.0, size.height / 2.0)
-        CGContextRotateCTM(context, M_PI_2)
-        CGContextTranslateCTM(context, - size.height / 2.0, - size.width / 2.0)
-      elsif currentOrientation == UIInterfaceOrientationLandscapeRight
-        CGContextTranslateCTM(context, size.width / 2.0, size.height / 2.0)
-        CGContextRotateCTM(context, -M_PI_2)
-        CGContextTranslateCTM(context, - size.height / 2.0, - size.width / 2.0)
-      elsif currentOrientation == UIInterfaceOrientationPortraitUpsideDown
-        CGContextTranslateCTM(context, size.width / 2.0, size.height / 2.0)
-        CGContextRotateCTM(context, M_PI)
-        CGContextTranslateCTM(context, -size.width / 2.0, -size.height / 2.0)
-      end
-
-      windows.each do |window|
-        next if window.layer.presentationLayer.nil?
-
-        CGContextSaveGState(context)
-        CGContextTranslateCTM(context, window.center.x, window.center.y)
-        CGContextConcatCTM(context, window.transform)
-        CGContextTranslateCTM(context,
-                              - window.bounds.size.width * window.layer.anchorPoint.x,
-                              - window.bounds.size.height * window.layer.anchorPoint.y)
-
-        window.layer.presentationLayer.renderInContext(UIGraphicsGetCurrentContext())
-
-        CGContextRestoreGState(context)
-      end
-
-      image = UIGraphicsGetImageFromCurrentImageContext()
-      UIGraphicsEndImageContext()
-
-      UIImagePNGRepresentation(image).writeToFile(filename(:current), atomically: true)
-    end
-
     def accept_current
       `cp #{filename(:current)} #{filename(:accepted)}`
     end
 
     def verify
-      save_current
+      strategy.save_current filename(:current)
       accept_current if ENV['ACCEPT_ALL_SCREENSHOTS']
 
       success = true

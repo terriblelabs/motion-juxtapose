@@ -1,6 +1,6 @@
 # Juxtapose
 
-TODO: Write a gem description
+Screenshot-driven assertions for testing RubyMotion applications.
 
 ## Installation
 
@@ -18,7 +18,23 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Juxtapose provides a single new matcher: `it_should_look_like`.
+
+Example:
+
+    describe "home controller" do
+      extend Juxtapose
+    
+      describe "home controller" do
+        tests HomeViewController
+    
+        it "has a button that moves when tapped" do
+          tap "Goodbye, world!"
+          it_should_look_like "when_tapped"
+        end
+      end
+    end
+
 
 ## Contributing
 
