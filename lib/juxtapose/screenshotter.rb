@@ -47,18 +47,19 @@ module Juxtapose
     end
 
     def dir
-      @dir ||= "#{project_root}/spec/screens/#{strategy.version}/#{test_name}/#{template}".tap do |dir|
+      @dir ||= File.join(project_root,
+                         strategy.spec_dir,
+                         strategy.device_name,
+                         strategy.version,
+                         test_name,
+                         template).tap do |dir|
         `mkdir -p #{dir}`
       end
     end
 
     def filename(base)
       raise "unknown filename" unless [:current, :accepted, :diff].include?(base)
-      components = [base]
-      components << "retina" if strategy.retina?
-      components << "png"
-
-      File.join dir, components.join('.')
+      File.join dir, [base, "png"].join('.')
     end
 
     def timestamp

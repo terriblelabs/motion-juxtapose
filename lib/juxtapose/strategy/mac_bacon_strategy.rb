@@ -13,7 +13,7 @@ module Juxtapose
       "#{context.name}-#{Thread.current["CURRENT_SPEC_DESCRIPTION"]}"
     end
 
-    def retina?
+    def device_name
       UIScreen.mainScreen.scale > 1
     end
 
@@ -66,6 +66,10 @@ module Juxtapose
       UIGraphicsEndImageContext()
 
       UIImagePNGRepresentation(image).writeToFile(filename, atomically: true)
+    end
+
+    def spec_dir
+      "spec/screens"
     end
 
     private

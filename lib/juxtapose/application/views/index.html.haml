@@ -32,6 +32,14 @@
 
           .col-md-3
             .form-group
+              %b Device
+              .checkbox{"ng-repeat" => "device in devices"}
+                %label
+                  %input{type: "checkbox", "ng-model" => "device.selected", "ng-init" => "device.selected = true" }
+                    {{ device.name }}
+
+          .col-md-3
+            .form-group
               %b iOS Version
               .checkbox{"ng-repeat" => "version in versions"}
                 %label
@@ -39,13 +47,18 @@
                     {{ version.name }}
 
       %ul.specs
-        %li.spec{"ng-repeat" => "spec in specs = (project.specs | filter:specNameMatcher | filter:onlyFailingMatcher | filter:versionMatcher)", "ng-class" => "spec.current ? 'failed' : 'passed'"}
+        %li.spec{"ng-repeat" => "spec in specs = (project.specs | filter:specNameMatcher | filter:onlyFailingMatcher | filter:versionMatcher | filter:deviceNameMatcher)", "ng-class" => "spec.current ? 'failed' : 'passed'"}
           %p.spec_name
             %span.failing-title{"ng-show" => "spec.current"} FAILING
             %span.passing-title{"ng-show" => "!spec.current"} PASSING
+
             {{ specName(spec) }}
-            .version
-              iOS {{ iOSVersion(spec) }}
+
+            .info
+              %span.device {{ deviceName(spec) }}
+              %span.divider
+                \|
+              %span.version iOS {{ iOSVersion(spec) }}
 
           %table
             %tr

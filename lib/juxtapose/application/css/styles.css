@@ -24,3 +24,8 @@ li.no-specs {
 .failing-title {
   color: #B20000;
 }
+
+.divider {
+  padding: 0 4px;
+  color: #aaa;
+}

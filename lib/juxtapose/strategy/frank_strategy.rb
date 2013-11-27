@@ -17,12 +17,25 @@ module Juxtapose
       context.instance_variable_get('@__scenario').name
     end
 
-    def retina?
-      width > 320
+    def device_name
+      screen_type = ''
+      name = [context.version]
+      if context.version == 'iphone'
+        name << 'retina' if width > 320
+        name << '5S' if height > 960
+      else
+        name << 'retina' if width > 768
+      end
+
+      name.join('-')
     end
 
     def save_current(filename)
       context.frankly_screenshot(filename, nil, false)
+    end
+
+    def spec_dir
+      "features/screens"
     end
 
     private

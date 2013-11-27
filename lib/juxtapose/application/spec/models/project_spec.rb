@@ -13,7 +13,7 @@ describe "Project" do
   end
 
   it "lists one spec per directory when there are multiple images" do
-    spec ="#{@specs_dir}/ios7.0/user_views_home_screen"
+    spec ="#{@specs_dir}/iphone/ios7.0/user_views_home_screen"
     FileUtils.mkdir_p(spec)
 
     FileUtils.touch("#{spec}/accepted.png")
@@ -24,7 +24,7 @@ describe "Project" do
   end
 
   it "lists manys specs per directory when there are many directories with multiple images" do
-    spec ="#{@specs_dir}/ios7.0/user_views_home_screen"
+    spec ="#{@specs_dir}/iphone-retina/ios7.0/user_views_home_screen"
     FileUtils.mkdir_p(spec)
 
     FileUtils.touch("#{spec}/accepted.png")
@@ -40,7 +40,7 @@ describe "Project" do
   end
 
   it "serializes to JSON" do
-    spec ="#{@specs_dir}/ios7.0/user_views_home_screen"
+    spec ="#{@specs_dir}/ipad/ios7.0/user_views_home_screen"
     FileUtils.mkdir_p(spec)
 
     FileUtils.touch("#{spec}/accepted.png")
@@ -56,7 +56,7 @@ describe "Project" do
   end
 
   it "accepts files" do
-    specs_dir ="#{@specs_dir}/ios7.0/user_views_home_screen/home_screen"
+    specs_dir ="#{@specs_dir}/ipad/ios7.0/user_views_home_screen/home_screen"
     FileUtils.mkdir_p(specs_dir)
 
     file = "#{specs_dir}/current.retina.png"
