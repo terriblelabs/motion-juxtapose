@@ -14,7 +14,9 @@ module Juxtapose
     end
 
     def device_name
-      UIScreen.mainScreen.scale > 1
+      name = [UIDevice.currentDevice.model.gsub(/\s+Simulator/, '').downcase]
+      name << 'retina' if UIScreen.mainScreen.scale > 1
+      name.join('-')
     end
 
     def save_current(filename)
