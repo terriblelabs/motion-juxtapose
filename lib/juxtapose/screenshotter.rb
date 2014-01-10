@@ -2,11 +2,16 @@ module Juxtapose
   def self.extended(base)
     if defined?(::Bacon::Specification)
       ::Bacon::Specification.class_eval do
-        alias_method :original_run_spec_block, :run_spec_block
+        @@juxtapatched ||= nil
 
-        def run_spec_block
-          Thread.current["CURRENT_SPEC_DESCRIPTION"] = @description
-          original_run_spec_block
+        unless @@juxtapatched
+          alias_method :original_run_spec_block, :run_spec_block
+          @@juxtapatched = true
+
+          def run_spec_block
+            Thread.current["CURRENT_SPEC_DESCRIPTION"] = @description
+            original_run_spec_block
+          end
         end
       end
     end
