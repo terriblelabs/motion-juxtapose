@@ -11,15 +11,18 @@ class Project
     new_name
   end
 
-  attr_accessor :directory
-  def initialize(directory)
-    self.directory = directory
+  attr_accessor :directories
+  def initialize(directories)
+    self.directories = Array(directories)
   end
 
   def specs
-    spec_dirs.map do |dir|
-      Spec.new directory, dir
-    end
+    spec_dirs.map do |root, dirs|
+      next if dirs.empty?
+      dirs.map do |dir|
+        Spec.new root, dir
+      end
+    end.compact.flatten
   end
 
   def to_json
@@ -34,12 +37,12 @@ class Project
 
   private
   def spec_dirs
-    dirs = Dir.glob(File.join(directory, '**/*.png')).map do |file|
-      File.dirname(file)
+    dirs = {}
+    directories.each do |directory|
+      dirs[directory] = Dir.glob(File.join(directory, '**/*.png')).map do |file|
+        Dir[File.dirname(file)]
+      end.flatten.uniq
     end
-
-    dirs.uniq.select do |f|
-      Dir[File.join(f, "*.png")].any?
-    end
+    dirs
   end
 end

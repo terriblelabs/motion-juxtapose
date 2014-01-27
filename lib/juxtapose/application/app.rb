@@ -15,15 +15,16 @@ class JuxtaposeServer < Sinatra::Base
     haml :'/index.html', locals: {specs: project.specs}
   end
 
-  get '/images/*' do |path|
-    send_file File.join(screens_dir, path)
+  get '/images*' do |path|
+    send_file path
   end
 
   post '/accept' do
     json_params = JSON.parse(request.body.read)
     content_type :json
 
-    {image: Image.new(screens_dir, Project.accept!(json_params["filename"]))}.to_json
+    new_img = Project.accept!(json_params["filename"])
+    {image: {path: File.join("/images", new_img), img: new_img }}.to_json
   end
 
   def project
@@ -31,10 +32,8 @@ class JuxtaposeServer < Sinatra::Base
   end
 
   def screens_dir
-    [ File.join(Dir.pwd, 'spec'), File.join(Dir.pwd, 'features') ].each do |dir|
-      if File.exists?(dir)
-        return File.join(dir, 'screens')
-      end
+    [ File.join(Dir.pwd, 'spec/screens'), File.join(Dir.pwd, 'features/screens') ].select do |dir|
+       File.exists?(dir)
     end
   end
 

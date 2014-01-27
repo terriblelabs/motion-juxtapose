@@ -11,7 +11,7 @@ class Image
   end
 
   def path
-    File.join("/images", File.join(img.gsub(basedir, '')))
+    File.join("/images", img)
   end
 
   def to_json(options={})

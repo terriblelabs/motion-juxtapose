@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'json'
 
 describe "Project" do
   before do
@@ -21,6 +22,23 @@ describe "Project" do
 
     specs = Project.new(@specs_dir).specs
     expect(specs.length).to eq(1)
+  end
+
+  it "lists specs over multiple spec directories" do
+    features_screen_dir = 'features/screens'
+    FileUtils.mkdir_p(features_screen_dir)
+
+    spec_dirs = [@specs_dir, features_screen_dir]
+    spec_dirs.each do |dir|
+      spec ="#{dir}/iphone/ios7.0/user_views_home_screen"
+      FileUtils.mkdir_p(spec)
+
+      FileUtils.touch("#{spec}/accepted.png")
+      FileUtils.touch("#{spec}/current-1232422.png")
+    end
+
+    specs = Project.new(spec_dirs).specs
+    expect(specs.length).to eq(2)
   end
 
   it "lists manys specs per directory when there are many directories with multiple images" do
