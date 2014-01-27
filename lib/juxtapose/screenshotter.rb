@@ -102,7 +102,6 @@ module Juxtapose
             `rm #{filename(:diff)}`
           else
             success = false
-            puts "Screenshot verification failed (current: #{filename :current}, diff: #{filename :diff})"
           end
         end
       else
