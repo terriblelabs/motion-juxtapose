@@ -17,8 +17,10 @@ module Juxtapose
     end
   end
 
+  MAX_ATTEMPTS = 20
+
   def it_should_look_like(template)
-    Screenshotter.new(self, template).verify.should === true
+    Screenshotter.new(self, template).attempt_verify(MAX_ATTEMPTS).should.be.true
   end
 
   class Screenshotter
@@ -73,6 +75,16 @@ module Juxtapose
 
     def accept_current
       `cp #{filename(:current)} #{filename(:accepted)}`
+    end
+
+    def attempt_verify(max_attempts)
+      attempts = 0
+      while attempts < max_attempts
+        return true if verify
+        attempts += 1
+        sleep 0.25
+      end
+      raise "Screenshot did not match '#{template}'"
     end
 
     def verify
