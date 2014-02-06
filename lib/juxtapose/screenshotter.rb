@@ -19,8 +19,8 @@ module Juxtapose
 
   MAX_ATTEMPTS = 20
 
-  def it_should_look_like(template)
-    Screenshotter.new(self, template).attempt_verify(MAX_ATTEMPTS).should.be.true
+  def it_should_look_like(template, fuzz_factor = 0)
+    Screenshotter.new(self, template, fuzz_factor).attempt_verify(MAX_ATTEMPTS).should.be.true
   end
 
   class Screenshotter
@@ -30,11 +30,13 @@ module Juxtapose
     attr_reader :context
     attr_reader :strategy
     attr_reader :template
+    attr_reader :fuzz_factor
 
-    def initialize(context, template)
+    def initialize(context, template, fuzz_factor = 0)
       @context = context
       @template = template.gsub(' ', '-')
       @strategy = strategy_for_context(context)
+      @fuzz_factor = fuzz_factor
     end
 
     def strategy_for_context(context)
@@ -93,7 +95,7 @@ module Juxtapose
 
       success = true
       if File.exists? filename(:accepted )
-        compare_command = "compare -metric AE -dissimilarity-threshold 1 -subimage-search"
+        compare_command = "compare -fuzz #{fuzz_factor}% -metric AE -dissimilarity-threshold 1 -subimage-search"
         out = `#{compare_command} \"#{filename :current}\" \"#{filename :accepted}\" \"#{filename :diff}\" 2>&1`
         out.chomp!
         (out == '0').tap do |verified|
