@@ -22,7 +22,7 @@ module Juxtapose
       name = [context.version]
       if context.version == 'iphone'
         name << 'retina' if width > 320
-        name << '5S' if height > 960
+        name << '5' if height > 960
       else
         name << 'retina' if width > 768
       end
