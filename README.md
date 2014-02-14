@@ -6,7 +6,7 @@ Screenshot-driven assertions for testing RubyMotion applications.
 
 Add this line to your application's Gemfile:
 
-    gem 'juxtapose'
+    gem 'motion-juxtapose'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install juxtapose
+    $ gem install motion-juxtapose
 
 ## Usage
 
@@ -55,7 +55,7 @@ end
 Add the following config to your features/support/env.rb:
 
 ```ruby
-require 'juxtapose'
+require 'motion-juxtapose'
 Juxtapose::FrankStrategy.setup
 ```
 

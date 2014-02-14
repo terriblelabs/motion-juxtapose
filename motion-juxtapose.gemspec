@@ -2,13 +2,13 @@
 require File.expand_path('../lib/juxtapose/version', __FILE__)
 
 Gem::Specification.new do |spec|
-  spec.name          = "juxtapose"
+  spec.name          = "motion-juxtapose"
   spec.version       = Juxtapose::VERSION
   spec.authors       = ["Joe Lind", "Thomas Mayfield", "Jeffrey Chupp"]
   spec.email         = ["thomas@terriblelabs.com"]
   spec.description   = %q{Screenshot-based assertions for RubyMotion projects}
   spec.summary       = %q{Screenshot-based assertions for RubyMotion projects}
-  spec.homepage      = "https://github.com/terriblelabs/juxtapose"
+  spec.homepage      = "https://github.com/terriblelabs/motion-juxtapose"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
