@@ -24,39 +24,46 @@ Juxtapose provides a single new matcher: `it_should_look_like` takes a single ar
 
 Example:
 
-    describe "home controller" do
-      extend Juxtapose
-    
-      describe "home controller" do
-        tests HomeViewController
-    
-        it "has a button that moves when tapped" do
-          tap "Goodbye, world!"
-          it_should_look_like "when_tapped"
-        end
-      end
+```ruby
+describe "home controller" do
+  extend Juxtapose
+
+  describe "home controller" do
+    tests HomeViewController
+
+    it "has a button that moves when tapped" do
+      tap "Goodbye, world!"
+      it_should_look_like "when_tapped"
     end
+  end
+end
+```
 
 ### Frank
 
 Add the following config to your features/support/env.rb:
 
-    require 'juxtapose'
-    Juxtapose::FrankStrategy.setup
+```ruby
+require 'juxtapose'
+Juxtapose::FrankStrategy.setup
+```
 
 This lets you write a screenshot matcher along the lines of:
 
-     Then /^the screen should match "([^\"]*)"$/ do |template|
-       wait_for_nothing_to_be_animating
-       screenshotter = Juxtapose::Screenshotter.new(self, template)
-       expect(screenshotter.verify).to eq(true)
-     end
+```ruby
+Then /^the screen should match "([^\"]*)"$/ do |template|
+  wait_for_nothing_to_be_animating
+  screenshotter = Juxtapose::Screenshotter.new(self, template)
+  max_attempts = 20
+  expect(screenshotter.attempt_verify(max_attempts)).to eq(true)
+end
+```
 
 ### Juxtapose Server
 
 Juxtapose comes with a small webapp that you can use to view your screenshot specs, see diffs between accepted and failing specs and accept any changed images that are expected changes. 
 
-To start it, run `juxtapose` in the root of your project and browse to localhost:4567.
+To start it, run `bundle exec juxtapose` in the root of your project and browse to localhost:4567.
 
 
 ## Contributing
