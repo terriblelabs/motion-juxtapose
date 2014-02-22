@@ -95,6 +95,7 @@ module Juxtapose
 
       success = true
       if File.exists? filename(:accepted )
+        raise "Screenshots are different sizes" unless same_size?
         compare_command = "compare -fuzz #{fuzz_factor}% -metric AE -dissimilarity-threshold 1 -subimage-search"
         out = `#{compare_command} \"#{filename :current}\" \"#{filename :accepted}\" \"#{filename :diff}\" 2>&1`
         out.chomp!
@@ -111,6 +112,15 @@ module Juxtapose
       end
 
       success
+    end
+
+    private
+
+    def same_size?
+      identify_command = "identify -format '%wx%h '"
+      out = `#{identify_command} \"#{filename :current}\" \"#{filename :accepted}\" 2>&1`
+      sizes = out.split
+      sizes.length == 2 && sizes.uniq.length == 1
     end
   end
 end
