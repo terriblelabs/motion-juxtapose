@@ -39,4 +39,15 @@ describe 'screenshot testing under bacon' do
       File.should.exist(File.join( ENV["RUBYMOTION_PROJECT_DIR"], spec_dir, "diff.png"))
     end
   end
+
+  it "raises an error when screens are different sizes" do 
+    error = nil
+    begin
+      it_should_look_like "different sized screenshot"
+    rescue RuntimeError => e
+      error = e
+    end
+    error.should.not.be.nil
+    error.message.should =~ /Screenshots are different sizes/
+  end
 end
