@@ -23,6 +23,17 @@ describe Spec do
     ]
   end
 
+  it "only uses the file name to determine accepted/current/diff status" do
+    spec_dir ="#{@specs_dir}/ios7.0/currently_logged_in_user"
+    FileUtils.mkdir_p(spec_dir)
+
+    FileUtils.touch("#{spec_dir}/accepted.png")
+
+    spec = Spec.new @specs_dir, spec_dir
+    expect(spec.current).to be_nil
+    expect(spec.accepted.img).to eq("#{spec_dir}/accepted.png")
+  end
+
   it "serializes to JSON" do
     spec_dir ="#{@specs_dir}/ios7.0/user_views_home_screen"
     FileUtils.mkdir_p(spec_dir)

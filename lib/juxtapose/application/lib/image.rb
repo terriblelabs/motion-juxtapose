@@ -7,7 +7,15 @@ class Image
   end
 
   def accepted?
-    img.match /accepted/
+    File.basename(img).match /accepted/
+  end
+
+  def current?
+    File.basename(img).match /current/
+  end
+
+  def diff?
+    File.basename(img).match /diff/
   end
 
   def path

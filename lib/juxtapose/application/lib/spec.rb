@@ -21,15 +21,15 @@ class Spec
   end
 
   def accepted
-    images.select {|i| i.path =~ /accepted/ }.first
+    images.select(&:accepted?).first
   end
 
   def current
-    images.select {|i| i.path =~ /current/ }.first
+    images.select(&:current?).first
   end
 
   def diff
-    images.select {|i| i.path =~ /diff/ }.first
+    images.select(&:diff?).first
   end
 
   def as_json
