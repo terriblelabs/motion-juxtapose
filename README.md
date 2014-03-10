@@ -76,6 +76,24 @@ Juxtapose comes with a small webapp that you can use to view your screenshot spe
 
 To start it, run `bundle exec juxtapose` in the root of your project and browse to localhost:4567.
 
+## Release Notes
+
+#### v.0.1.1
+
+* Raise error if screenshot sizes don't match ([@mdenomy](http://github.com/mdenomy))
+* Bug fix: Differentiate image status by filename, not full path. Fixes #8.
+
+#### v.0.1.0
+
+* Initial release.
+
+## Contributors
+
+* [Joe Lind](http://github.com/joelind)
+* [Thomas Mayfield](http://github.com/thegreatape )
+* [Jeffrey Chupp](http://github.com/semanticart)
+* [Michael Denomy](http://github.com/mdenomy)
+
 
 ## Contributing
 
