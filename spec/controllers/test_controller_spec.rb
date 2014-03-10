@@ -18,7 +18,7 @@ describe 'screenshot testing under bacon' do
     it_should_look_like "accepted screenshot"
   end
 
-  it "raises an error and produces a current and diff file when differing from an accepeted screenshot" do
+  it "raises an error and produces diffs on failure" do
     Dispatch::Queue.main.async do
       view("Juxtapose").text = "Changed!"
     end
@@ -33,7 +33,7 @@ describe 'screenshot testing under bacon' do
       error.should.not.be.nil
       error.message.should =~ /Screenshot did not match/
 
-      spec_dir = "spec/screens/iphone-retina/ios_7.0.3/screenshot-testing-under-bacon-raises-an-error-and-produces-a-current-and-diff-file-when-differing-from-an-accepeted-screenshot/going-to-differ-screenshot"
+      spec_dir = "spec/screens/iphone-retina/ios_7.0.3/screenshot-testing-under-bacon-raises-an-error-and-produces-diffs-on-failure/going-to-differ-screenshot"
 
       File.should.exist(File.join( ENV["RUBYMOTION_PROJECT_DIR"], spec_dir, "current.png"))
       File.should.exist(File.join( ENV["RUBYMOTION_PROJECT_DIR"], spec_dir, "diff.png"))
