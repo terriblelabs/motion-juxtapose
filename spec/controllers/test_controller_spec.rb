@@ -33,14 +33,14 @@ describe 'screenshot testing under bacon' do
       error.should.not.be.nil
       error.message.should =~ /Screenshot did not match/
 
-      spec_dir = "spec/screens/iphone-retina/ios_7.0.3/screenshot-testing-under-bacon-raises-an-error-and-produces-diffs-on-failure/going-to-differ-screenshot"
+      spec_dir = "spec/screens/iphone-retina/ios_7.1/screenshot-testing-under-bacon-raises-an-error-and-produces-diffs-on-failure/going-to-differ-screenshot"
 
       File.should.exist(File.join( ENV["RUBYMOTION_PROJECT_DIR"], spec_dir, "current.png"))
       File.should.exist(File.join( ENV["RUBYMOTION_PROJECT_DIR"], spec_dir, "diff.png"))
     end
   end
 
-  it "raises an error when screens are different sizes" do 
+  it "raises an error when screens are different sizes" do
     error = nil
     begin
       it_should_look_like "different sized screenshot"
