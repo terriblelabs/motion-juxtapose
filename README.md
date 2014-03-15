@@ -4,6 +4,10 @@ Screenshot-driven assertions for testing RubyMotion applications.
 
 ## Installation
 
+Motion-juxtapose uses [ImageMagick](http://www.imagemagick.org/) under the hood for image comparison. If you're using [Homebrew](http://brew.sh/), you can install it with:
+
+    brew install imagemagick
+
 Add this line to your application's Gemfile:
 
     gem 'motion-juxtapose'
