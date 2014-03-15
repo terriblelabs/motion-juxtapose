@@ -80,6 +80,8 @@ module Juxtapose
     end
 
     def attempt_verify(max_attempts)
+      ensure_imagemagick_installed
+
       attempts = 0
       while attempts < max_attempts
         return true if verify
@@ -90,6 +92,8 @@ module Juxtapose
     end
 
     def verify
+      ensure_imagemagick_installed
+
       strategy.save_current filename(:current)
       accept_current if ENV['ACCEPT_ALL_SCREENSHOTS']
 
@@ -102,6 +106,16 @@ module Juxtapose
       end
 
       success
+    end
+
+    def ensure_imagemagick_installed
+      unless imagemagick_installed?
+        raise "Executable for 'convert' not installed or not found on $PATH. Please install Imagemagick or add it to your $PATH."
+      end
+    end
+
+    def imagemagick_installed?
+      `command -v convert`.length > 0
     end
 
     private
