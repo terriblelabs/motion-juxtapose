@@ -26,7 +26,7 @@ Juxtapose's workflow generally goes:
 
 1. Write a test that puts your app in the state you want to capture and take a screenshot (see below for how to do this in Bacon and Frank).
 2. The first time this screenshot is captured, your test will fail with the error "No accepted screen shot".
-3. You must provide Juxtapose an accepted screenshot to match against in future test runs. Run the juxtapose server with `bundle exec juxtapose` and browse to http://localhost:4567 — you should the just-captured screenshot, like below.
+3. You must provide Juxtapose an accepted screenshot to match against in future test runs. Run the juxtapose server with `bundle exec juxtapose` and browse to http://localhost:4567 — you should see the just-captured screenshot, like below.
 4. If the screenshot looks like what you expect, click Accept to save the image. Future runs of this test will be compared against the accepted one. ![Initial view of screenshots.](images/initial-view.png)
 5. Run the tests again, and they should be green.
 6. Later, when you introduce a change (intentionally or not), the tests will fail with the message "Screenshot did not match". Open up the juxtapose server again, and you'll see a comparison of your accepted screenshot with what the test captured. ![Diff view of screenshots.](images/diff-view.png)
