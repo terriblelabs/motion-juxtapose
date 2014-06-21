@@ -74,6 +74,27 @@ Then /^the screen should match "([^\"]*)"$/ do |template|
 end
 ```
 
+### Fuzzy matching
+
+Sometimes screenshots will differ slightly due to things like animation timing. Juxtapose will try to match an existing screenshot multiple times to help counteract this, but it can still be useful to be able to match screenshots using a percent similarity threshold. 
+
+In bacon specs, you can pass a fuzz factor from 0 to 100 to `it_should_look_like`, 0 meaning an exact match and 100 matching anything of the same size. The default is 0.
+
+```ruby
+# matches images that are 15% similar
+it_should_look_like 'a fancy animation', 15
+```
+
+In Frank, pass the fuzz factor in as the third argument to the Screenshotter constructor. A more exacting Frank step could be written as:
+
+```ruby
+Then /^the screen should match "([^\"]*)" within (\d+)% in (\d+) attempts$/ do |template, fuzz_factor, max_attempts|
+  wait_for_nothing_to_be_animating
+  screenshotter = Juxtapose::Screenshotter.new(self, template, fuzz_factor)
+  expect(screenshotter.attempt_verify(max_attempts)).to eq(true)
+end
+```
+
 ### Juxtapose Server
 
 Juxtapose comes with a small webapp that you can use to view your screenshot specs, see diffs between accepted and failing specs and accept any changed images that are expected changes.
