@@ -1,6 +1,6 @@
 # Juxtapose
 
-Screenshot-driven assertions for testing RubyMotion applications.
+Screenshot-driven assertions for testing Rails and RubyMotion applications.
 
 ## Installation
 
@@ -71,6 +71,30 @@ Then /^the screen should match "([^\"]*)"$/ do |template|
   screenshotter = Juxtapose::Screenshotter.new(self, template)
   max_attempts = 20
   expect(screenshotter.attempt_verify(max_attempts)).to eq(true)
+end
+```
+
+### Rails with Capybara 
+
+Any Capybara driver that supports screenshot capture should work, but I've only tested this with [Poltergeist](https://github.com/teampoltergeist/poltergeist) so far.
+
+In your `spec_helper.rb`, add:
+
+```ruby
+require 'juxtapose/capybara'
+
+# if you're using Rspec, you can get the `look_like?` custom matcher with:
+require 'juxtapose/rspec'
+```
+
+Now the Capybara page object will have a `looks_like?(predicate)` method that can call to make screenshot assertions:
+
+```ruby
+feature "viewing locations", js: true do
+  scenario "should only show books at first location" do
+    visit location_path Location.find_by_name("Cambridge")
+    expect(page).to look_like("books at Cambridge")
+  end
 end
 ```
 

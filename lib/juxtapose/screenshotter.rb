@@ -19,8 +19,12 @@ module Juxtapose
 
   MAX_ATTEMPTS = 20
 
+  def looks_like?(template, fuzz_factor=0)
+    Screenshotter.new(self, template, fuzz_factor).attempt_verify(MAX_ATTEMPTS)
+  end
+
   def it_should_look_like(template, fuzz_factor = 0)
-    Screenshotter.new(self, template, fuzz_factor).attempt_verify(MAX_ATTEMPTS).should.be.true
+    looks_like?(template, fuzz_factor).should.be.true
   end
 
   class Screenshotter
@@ -44,11 +48,17 @@ module Juxtapose
         Juxtapose::MacBaconStrategy.new(context)
       elsif context.respond_to? :frankly_ping
         Juxtapose::FrankStrategy.new(context)
+      elsif defined?(Capybara)
+        Juxtapose::CapybaraStrategy.new(context)
       end
     end
 
     def project_root
-      ENV["RUBYMOTION_PROJECT_DIR"]
+      if defined? Rails
+        Rails.root
+      else
+        ENV["RUBYMOTION_PROJECT_DIR"]
+      end
     end
 
     def test_name

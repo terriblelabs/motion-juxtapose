@@ -1,6 +1,7 @@
 require "juxtapose/version"
 require "juxtapose/screenshotter"
 require "juxtapose/strategy/frank_strategy"
+require "juxtapose/strategy/capybara_strategy"
 
 if defined?(Motion::Project::Config)
   Motion::Project::App.setup do |app|
