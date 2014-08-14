@@ -137,20 +137,30 @@ module Juxtapose
       sizes.length == 2 && sizes.uniq.length == 1
     end
 
-    def screenshots_match?
-      match = true
+    def create_diff
+      `compare -fuzz #{fuzz_factor}% -dissimilarity-threshold 1 -subimage-search \"#{filename :current}\" \"#{filename :accepted}\" \"#{filename :diff}\" 2>&1`
+    end
+
+    def cleanup
+      `rm #{filename(:current)}`
+      `rm #{filename(:diff)}`
+    end
+
+    def identical_images?
       compare_command = "compare -fuzz #{fuzz_factor}% -metric AE -dissimilarity-threshold 1 -subimage-search"
       out = `#{compare_command} \"#{filename :current}\" \"#{filename :accepted}\" \"#{filename :diff}\" 2>&1`
       out.chomp!
-      (out == '0').tap do |verified|
-        if verified
-          `rm #{filename(:current)}`
-          `rm #{filename(:diff)}`
-        else
-          match = false
-        end
+      out.start_with?('0')
+    end
+
+    def screenshots_match?
+      if identical_images?
+        cleanup
+        true
+      else
+        create_diff
+        false
       end
-      match
     end
   end
 end
