@@ -33,6 +33,8 @@ Juxtapose's workflow generally goes:
 7. If the change was intentional, you can accept the new screenshot - otherwise, you've got some fixin' to do!
 
 
+## Testing RubyMotion Apps
+
 ### MacBacon
 
 Juxtapose provides a single new matcher: `it_should_look_like` takes a single argument, a descriptive string predicate of what the screen should look like.
@@ -74,7 +76,9 @@ Then /^the screen should match "([^\"]*)"$/ do |template|
 end
 ```
 
-### Rails with Capybara 
+## Testing Rails Apps
+
+### Capybara
 
 Any Capybara driver that supports screenshot capture should work, but I've only tested this with [Poltergeist](https://github.com/teampoltergeist/poltergeist) so far.
 
@@ -126,6 +130,10 @@ Juxtapose comes with a small webapp that you can use to view your screenshot spe
 To start it, run `bundle exec juxtapose` in the root of your project and browse to localhost:4567.
 
 ## Release Notes
+
+#### v.0.2.0
+* Rails/rspec support
+* Fixes to work under newest version of ImageMagick
 
 #### v.0.1.1
 
