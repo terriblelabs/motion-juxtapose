@@ -66,13 +66,19 @@ module Juxtapose
     end
 
     def dir
-      @dir ||= File.join(project_root,
-                         strategy.spec_dir,
-                         strategy.device_name,
-                         strategy.version,
-                         test_name,
-                         template).tap do |dir|
-        `mkdir -p #{dir}`
+      @dir ||= begin
+        parts = [
+          project_root,
+          strategy.spec_dir,
+          strategy.device_name,
+          strategy.version,
+          test_name,
+          template
+        ].map {|p| p.gsub(/ /, '-')}
+
+        File.join(*parts).tap do |dir|
+          `mkdir -p #{dir}`
+        end
       end
     end
 
