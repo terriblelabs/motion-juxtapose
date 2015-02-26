@@ -11,5 +11,11 @@ class ImageMatcher
     out.chomp!
     out.start_with?('0')
   end
+
+  def cleanup
+    if File.exist?(diff_file_name)
+      `rm #{diff_file_name}`
+    end
+  end
 end
 

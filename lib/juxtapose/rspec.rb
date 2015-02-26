@@ -4,7 +4,10 @@ if defined?(RSpec::Matchers)
       if actual.respond_to?(:looks_like?)
         actual.looks_like?(expected) == true
       else
-        ImageMatcher.new(options).identical?(expected, actual)
+        matcher = ImageMatcher.new(options)
+        matcher.identical?(expected, actual).tap do
+          matcher.cleanup
+        end
       end
     end
   end
