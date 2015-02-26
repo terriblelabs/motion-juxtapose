@@ -153,10 +153,8 @@ module Juxtapose
     end
 
     def identical_images?
-      compare_command = "compare -fuzz #{fuzz_factor}% -metric AE -dissimilarity-threshold 1 -subimage-search"
-      out = `#{compare_command} \"#{filename :current}\" \"#{filename :accepted}\" \"#{filename :diff}\" 2>&1`
-      out.chomp!
-      out.start_with?('0')
+      matcher = ImageMatcher.new(fuzz_factor: fuzz_factor, diff_file_name: filename(:diff))
+      matcher.identical?(filename(:current), filename(:accepted))
     end
 
     def screenshots_match?
@@ -170,3 +168,4 @@ module Juxtapose
     end
   end
 end
+

@@ -1,4 +1,5 @@
 require "juxtapose/version"
+require "juxtapose/image_matcher"
 require "juxtapose/screenshotter"
 require "juxtapose/strategy/frank_strategy"
 require "juxtapose/strategy/capybara_strategy"
