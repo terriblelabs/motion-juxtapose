@@ -74,7 +74,7 @@ module Juxtapose
           strategy.version,
           test_name,
           template
-        ].map {|p| p.gsub(/ /, '-')}
+        ].map {|p| p.to_s.gsub(/ /, '-')}
 
         File.join(*parts).tap do |dir|
           `mkdir -p #{dir}`
