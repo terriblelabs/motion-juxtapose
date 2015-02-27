@@ -131,7 +131,12 @@ module Juxtapose
     end
 
     def imagemagick_installed?
-      `command -v convert`.length > 0
+      if RUBY_PLATFORM =~ /darwin/
+        `command -v convert`
+      else
+        `which convert`
+      end
+      $?.success?
     end
 
     private
