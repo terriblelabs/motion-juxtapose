@@ -8,6 +8,7 @@ Bundler.require
 require 'motion-juxtapose'
 
 Motion::Project::App.setup do |app|
+  app.deployment_target = "8.1"
   app.name = 'juxtapose-tests'
   app.detect_dependencies = false
 end
