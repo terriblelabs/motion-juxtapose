@@ -11,4 +11,5 @@ Motion::Project::App.setup do |app|
   app.deployment_target = "8.1"
   app.name = 'juxtapose-tests'
   app.detect_dependencies = false
+  app.info_plist["UILaunchStoryboardName"] = "LaunchScreen"
 end
