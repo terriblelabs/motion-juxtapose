@@ -16,7 +16,9 @@ module Juxtapose
     def device_name
       name = [UIDevice.currentDevice.model.gsub(/\s+Simulator/, '').downcase]
       name << 'retina' if UIScreen.mainScreen.scale > 1
-      name << '5' if UIScreen.mainScreen.bounds.size.height > 480
+      name << '5' if UIScreen.mainScreen.bounds.size.height == 568.0
+      name << '6' if UIScreen.mainScreen.bounds.size.height == 667.0
+      name << '6-plus' if UIScreen.mainScreen.bounds.size.height == 736.0
       name.join('-')
     end
 
