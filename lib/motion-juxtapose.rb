@@ -3,6 +3,7 @@ require "juxtapose/image_matcher"
 require "juxtapose/screenshotter"
 require "juxtapose/strategy/frank_strategy"
 require "juxtapose/strategy/capybara_strategy"
+require "juxtapose/strategy/appium_strategy"
 
 if defined?(Motion::Project::Config)
   Motion::Project::App.setup do |app|

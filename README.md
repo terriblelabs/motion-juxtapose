@@ -76,6 +76,28 @@ Then /^the screen should match "([^\"]*)"$/ do |template|
 end
 ```
 
+### Appium
+
+Add the following config to your features/support/env.rb:
+
+```ruby
+require 'motion-juxtapose'
+Juxtapose::AppiumStrategy.setup
+```
+
+This lets you write a screenshot matcher along the lines of:
+
+```ruby
+Then /^the screen should match "([^\"]*)"$/ do |template|
+  wait_for_nothing_to_be_animating
+  #unlike frank we need to pass in a project root to find the screenshot directory
+  screenshotter = Juxtapose::Screenshotter.new(self, template, 0, File.expand_path('./'))
+
+  max_attempts = 20
+  expect(screenshotter.attempt_verify(max_attempts)).to eq(true)
+end
+```
+
 ## Testing Rails Apps
 
 ### Capybara

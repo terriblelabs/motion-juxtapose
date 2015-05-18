@@ -35,12 +35,14 @@ module Juxtapose
     attr_reader :strategy
     attr_reader :template
     attr_reader :fuzz_factor
+    attr_accessor :project_root
 
-    def initialize(context, template, fuzz_factor = 0)
+    def initialize(context, template, fuzz_factor = 0, project_root = nil)
       @context = context
       @template = template.gsub(' ', '-')
       @strategy = strategy_for_context(context)
       @fuzz_factor = fuzz_factor
+      @project_root = project_root || default_project_root
     end
 
     def strategy_for_context(context)
@@ -50,10 +52,12 @@ module Juxtapose
         Juxtapose::FrankStrategy.new(context)
       elsif defined?(Capybara)
         Juxtapose::CapybaraStrategy.new(context)
+      elsif defined?(Appium)
+        Juxtapose::AppiumStrategy.new(context)
       end
     end
 
-    def project_root
+    def default_project_root
       if defined? Rails
         Rails.root
       else
@@ -173,4 +177,3 @@ module Juxtapose
     end
   end
 end
-
