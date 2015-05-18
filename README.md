@@ -153,6 +153,10 @@ To start it, run `bundle exec juxtapose` in the root of your project and browse 
 
 ## Release Notes
 
+#### v.0.3.0
+* Add Appium support ([@squidpunch](http://github.com/squidpunch))
+* Add support for 6/6+ screen sizes ([@squidpunch](http://github.com/squidpunch))
+
 #### v.0.2.0
 * Rails/rspec support
 * Fixes to work under newest version of ImageMagick
@@ -172,6 +176,7 @@ To start it, run `bundle exec juxtapose` in the root of your project and browse 
 * [Thomas Mayfield](http://github.com/thegreatape )
 * [Jeffrey Chupp](http://github.com/semanticart)
 * [Michael Denomy](http://github.com/mdenomy)
+* [David Larrabee](http://github.com/squidpunch)
 
 
 ## Contributing
