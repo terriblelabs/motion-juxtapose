@@ -16,9 +16,9 @@ module Juxtapose
     def device_name
       name = [UIDevice.currentDevice.model.gsub(/\s+Simulator/, '').downcase]
       name << 'retina' if UIScreen.mainScreen.scale > 1
-      name << '5' if UIScreen.mainScreen.bounds.size.height == 568.0
-      name << '6' if UIScreen.mainScreen.bounds.size.height == 667.0
-      name << '6-plus' if UIScreen.mainScreen.bounds.size.height == 736.0
+      name << '5' if UIScreen.mainScreen.bounds.size.height == 568.0 || UIScreen.mainScreen.bounds.size.height == 320.0
+      name << '6' if UIScreen.mainScreen.bounds.size.height == 667.0 || UIScreen.mainScreen.bounds.size.height == 375.0
+      name << '6-plus' if UIScreen.mainScreen.bounds.size.height == 736.0 || UIScreen.mainScreen.bounds.size.height == 414
       name.join('-')
     end
 
@@ -40,15 +40,15 @@ module Juxtapose
 
       if currentOrientation == UIInterfaceOrientationLandscapeLeft
         CGContextTranslateCTM(context, size.width / 2.0, size.height / 2.0)
-        CGContextRotateCTM(context, M_PI_2)
+        CGContextRotateCTM(context, (Math::PI/2))
         CGContextTranslateCTM(context, - size.height / 2.0, - size.width / 2.0)
       elsif currentOrientation == UIInterfaceOrientationLandscapeRight
         CGContextTranslateCTM(context, size.width / 2.0, size.height / 2.0)
-        CGContextRotateCTM(context, -M_PI_2)
+        CGContextRotateCTM(context, -(Math::PI/2))
         CGContextTranslateCTM(context, - size.height / 2.0, - size.width / 2.0)
       elsif currentOrientation == UIInterfaceOrientationPortraitUpsideDown
         CGContextTranslateCTM(context, size.width / 2.0, size.height / 2.0)
-        CGContextRotateCTM(context, M_PI)
+        CGContextRotateCTM(context, Math::PI)
         CGContextTranslateCTM(context, -size.width / 2.0, -size.height / 2.0)
       end
 
