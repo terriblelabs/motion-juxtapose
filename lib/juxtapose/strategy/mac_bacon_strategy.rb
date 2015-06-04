@@ -15,10 +15,10 @@ module Juxtapose
 
     def device_name
       name = [UIDevice.currentDevice.model.gsub(/\s+Simulator/, '').downcase]
-      name << 'retina' if UIScreen.mainScreen.scale > 1
-      name << '5' if UIScreen.mainScreen.bounds.size.height == 568.0
-      name << '6' if UIScreen.mainScreen.bounds.size.height == 667.0
-      name << '6-plus' if UIScreen.mainScreen.bounds.size.height == 736.0
+      name << 'retina' if retina?
+      name << '5' if iphone5?
+      name << '6' if iphone6?
+      name << '6-plus' if iphone6plus?
       name.join('-')
     end
 
@@ -40,15 +40,15 @@ module Juxtapose
 
       if currentOrientation == UIInterfaceOrientationLandscapeLeft
         CGContextTranslateCTM(context, size.width / 2.0, size.height / 2.0)
-        CGContextRotateCTM(context, M_PI_2)
+        CGContextRotateCTM(context, (Math::PI/2))
         CGContextTranslateCTM(context, - size.height / 2.0, - size.width / 2.0)
       elsif currentOrientation == UIInterfaceOrientationLandscapeRight
         CGContextTranslateCTM(context, size.width / 2.0, size.height / 2.0)
-        CGContextRotateCTM(context, -M_PI_2)
+        CGContextRotateCTM(context, -(Math::PI/2))
         CGContextTranslateCTM(context, - size.height / 2.0, - size.width / 2.0)
       elsif currentOrientation == UIInterfaceOrientationPortraitUpsideDown
         CGContextTranslateCTM(context, size.width / 2.0, size.height / 2.0)
-        CGContextRotateCTM(context, M_PI)
+        CGContextRotateCTM(context, Math::PI)
         CGContextTranslateCTM(context, -size.width / 2.0, -size.height / 2.0)
       end
 
@@ -88,6 +88,22 @@ module Juxtapose
 
     def height
       resolution.size.height
+    end
+    
+    def iphone5?
+      height == 568.0 || (height == 320.0 && width == 568.0)
+    end
+    
+    def iphone6?
+      height == 667.0 || height == 375.0
+    end
+
+    def iphone6plus?
+      height == 736.0 || height == 414
+    end
+
+    def retina?
+      UIScreen.mainScreen.scale > 1
     end
 
   end
