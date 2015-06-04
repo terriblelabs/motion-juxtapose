@@ -153,6 +153,10 @@ To start it, run `bundle exec juxtapose` in the root of your project and browse 
 
 ## Release Notes
 
+#### v.0.3.1
+* Fixes bug where you could not test against non-portrait screenshots ([@ohammersmith](https://github.com/ohammersmith))
+
+
 #### v.0.3.0
 * Add Appium support ([@squidpunch](http://github.com/squidpunch))
 * Add support for 6/6+ screen sizes ([@squidpunch](http://github.com/squidpunch))
@@ -177,6 +181,7 @@ To start it, run `bundle exec juxtapose` in the root of your project and browse 
 * [Jeffrey Chupp](http://github.com/semanticart)
 * [Michael Denomy](http://github.com/mdenomy)
 * [David Larrabee](http://github.com/squidpunch)
+* [Otto Hammersmith](https://github.com/ohammersmith)
 
 
 ## Contributing
