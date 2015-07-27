@@ -122,6 +122,13 @@ feature "viewing locations", js: true do
     expect(page).to look_like("books at Cambridge")
   end
 end
+
+feature "viewing locations with a fuzz factor", js: true do
+  scenario "should only show books at first location" do
+    visit location_path Location.find_by_name("Boston", fuzz_factor: 4)
+    expect(page).to look_like("books at Boston")
+  end
+end
 ```
 
 ### Fuzzy matching
