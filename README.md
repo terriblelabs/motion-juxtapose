@@ -160,15 +160,21 @@ To start it, run `bundle exec juxtapose` in the root of your project and browse 
 
 ## Release Notes
 
+#### v.0.3.2
+
+* Fixes bug where rails projects could not use fuzz factor ([@squidpunch](http://github.com/squidpunch))
+
 #### v.0.3.1
+
 * Fixes bug where you could not test against non-portrait screenshots ([@ohammersmith](https://github.com/ohammersmith))
 
-
 #### v.0.3.0
+
 * Add Appium support ([@squidpunch](http://github.com/squidpunch))
 * Add support for 6/6+ screen sizes ([@squidpunch](http://github.com/squidpunch))
 
 #### v.0.2.0
+
 * Rails/rspec support
 * Fixes to work under newest version of ImageMagick
 
