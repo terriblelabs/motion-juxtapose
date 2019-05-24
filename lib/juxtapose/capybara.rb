@@ -1,4 +1,4 @@
-if defined?(Capybara::Session)
+if defined?(Capybara) && defined?(Capybara::Session)
   class Capybara::Session
     include Juxtapose
   end
