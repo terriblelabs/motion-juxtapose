@@ -53,7 +53,8 @@ module Juxtapose
       end
 
       windows.each do |window|
-        next if window.layer.presentationLayer.nil?
+        layer = window.layer.presentationLayer || window.layer
+        next if layer.nil?
 
         CGContextSaveGState(context)
         CGContextTranslateCTM(context, window.center.x, window.center.y)
@@ -62,7 +63,7 @@ module Juxtapose
                               - window.bounds.size.width * window.layer.anchorPoint.x,
                               - window.bounds.size.height * window.layer.anchorPoint.y)
 
-        window.layer.presentationLayer.renderInContext(UIGraphicsGetCurrentContext())
+        layer.renderInContext(UIGraphicsGetCurrentContext())
 
         CGContextRestoreGState(context)
       end
