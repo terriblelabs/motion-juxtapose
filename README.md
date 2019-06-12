@@ -160,6 +160,13 @@ To start it, run `bundle exec juxtapose` in the root of your project and browse 
 
 ## Release Notes
 
+#### v.0.4.0
+
+* Updates for RubyMotion 6.1 & iOS 12.2 ([@wndxlori](http://github.com/wndxlori))
+* Fixes some undefined warnings (RSpec/Capybara/Cucumber)
+* Replaces `renderInContext` with `drawViewHierarchyInRect`
+* Device names are no longer calculated from screen sizes, but from `UIDevice.currentDevice`
+
 #### v.0.3.2
 
 * Fixes bug where rails projects could not use fuzz factor ([@squidpunch](http://github.com/squidpunch))
@@ -195,6 +202,7 @@ To start it, run `bundle exec juxtapose` in the root of your project and browse 
 * [Michael Denomy](http://github.com/mdenomy)
 * [David Larrabee](http://github.com/squidpunch)
 * [Otto Hammersmith](https://github.com/ohammersmith)
+* [Lori Olson](https://github.com/wndxlori)
 
 
 ## Contributing
