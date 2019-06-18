@@ -4,7 +4,7 @@ if defined?(Cucumber)
       attr_accessor :context
       attr_accessor :project_root
       def self.setup
-        Cucumber::RbSupport::RbDsl.register_rb_hook('before', [], Proc.new {|scenario, block| @__scenario = scenario })
+        Cucumber::Glue::Dsl.register_rb_hook('before', [], Proc.new {|scenario, block| @__scenario = scenario })
       end
 
       def initialize(context)
