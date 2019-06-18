@@ -2,7 +2,7 @@ if defined?(Cucumber)
   module Juxtapose
     class FrankStrategy
       def self.setup
-        Cucumber::RbSupport::RbDsl.register_rb_hook('before', [], Proc.new {|scenario, block| @__scenario = scenario })
+        Cucumber::Glue::Dsl.register_rb_hook('before', [], Proc.new {|scenario, block| @__scenario = scenario })
       end
 
       attr_accessor :context
